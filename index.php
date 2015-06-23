@@ -18,13 +18,16 @@
 	// Connection to the database
 	$db = new PDO('mysql:host='.$host.';dbname='.$name, $id, $pwd);
 
-	// If not exist, create modbrowser tables
-	$db->query("CREATE TABLE IF NOT EXISTS `". $modtable ."` (`id` int(11) NOT NULL,`author` varchar(30) CHARACTER SET utf8 NOT NULL,`name` varchar(30) CHARACTER SET utf8 NOT NULL,`image_url` varchar(255) CHARACTER SET utf8 DEFAULT NULL,`description` text CHARACTER SET utf8 NOT NULL,`note` int(11) DEFAULT NULL,`category` varchar(30) CHARACTER SET utf8 NOT NULL,`prerequisites` varchar(60) CHARACTER SET utf8 DEFAULT NULL) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=latin1 COMMENT='modbrowser mods table'");
-	$db->query("CREATE TABLE IF NOT EXISTS `". $versiontable ."` (`id` int(11) NOT NULL DEFAULT '0', `name` varchar(30) CHARACTER SET utf8 NOT NULL, `version` varchar(30) CHARACTER SET utf8 NOT NULL, `url` varchar(255) CHARACTER SET utf8 NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='modbrowser versions table'");
-
 	$g = htmlentities($_GET["mode"]);
+	
+	if($g == "install")
+	{
+		// If not exist, create modbrowser tables
+		$db->query("CREATE TABLE IF NOT EXISTS `". $modtable ."` (`id` int(11) NOT NULL,`author` varchar(30) CHARACTER SET utf8 NOT NULL,`name` varchar(30) CHARACTER SET utf8 NOT NULL,`image_url` varchar(255) CHARACTER SET utf8 DEFAULT NULL,`description` text CHARACTER SET utf8 NOT NULL,`note` int(11) DEFAULT NULL,`category` varchar(30) CHARACTER SET utf8 NOT NULL,`prerequisites` varchar(60) CHARACTER SET utf8 DEFAULT NULL) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=latin1 COMMENT='modbrowser mods table'");
+		$db->query("CREATE TABLE IF NOT EXISTS `". $versiontable ."` (`id` int(11) NOT NULL DEFAULT '0', `name` varchar(30) CHARACTER SET utf8 NOT NULL, `version` varchar(30) CHARACTER SET utf8 NOT NULL, `url` varchar(255) CHARACTER SET utf8 NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='modbrowser versions table'");
 
-	if($g == "info")
+	}
+	elseif($g == "info")
 	{
 		// Retrieve client variables
 		$n = htmlentities($_GET["n"]);
