@@ -23,8 +23,8 @@
 	if($g == "install")
 	{
 		// If not exist, create modbrowser tables
-		$db->query("CREATE TABLE IF NOT EXISTS `". $modtable ."` (`id` int(11) NOT NULL,`author` varchar(30) CHARACTER SET utf8 NOT NULL,`name` varchar(30) CHARACTER SET utf8 NOT NULL,`image_url` varchar(255) CHARACTER SET utf8 DEFAULT NULL,`description` text CHARACTER SET utf8 NOT NULL,`note` int(11) DEFAULT NULL,`category` varchar(30) CHARACTER SET utf8 NOT NULL,`prerequisites` varchar(60) CHARACTER SET utf8 DEFAULT NULL) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=latin1 COMMENT='modbrowser mods table'");
-		$db->query("CREATE TABLE IF NOT EXISTS `". $versiontable ."` (`id` int(11) NOT NULL DEFAULT '0', `name` varchar(30) CHARACTER SET utf8 NOT NULL, `version` varchar(30) CHARACTER SET utf8 NOT NULL, `url` varchar(255) CHARACTER SET utf8 NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='modbrowser versions table'");
+		$db->query("CREATE TABLE IF NOT EXISTS `". $modtable ."` (`id` int(11) NOT NULL,`author` varchar(30) CHARACTER SET utf8 NOT NULL,`name` varchar(30) CHARACTER SET utf8 NOT NULL,`image_url` varchar(255) CHARACTER SET utf8 DEFAULT NULL,`description` text CHARACTER SET utf8 NOT NULL,`note` int(11) DEFAULT NULL,`category` varchar(30) CHARACTER SET utf8 NOT NULL,`prerequisites` varchar(60) CHARACTER SET utf8 DEFAULT NULL) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf-8 COMMENT='modbrowser mods table'");
+		$db->query("CREATE TABLE IF NOT EXISTS `". $versiontable ."` (`id` int(11) NOT NULL DEFAULT '0', `name` varchar(30) CHARACTER SET utf8 NOT NULL, `version` varchar(30) CHARACTER SET utf8 NOT NULL, `url` varchar(255) CHARACTER SET utf8 NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf-8 COMMENT='modbrowser versions table'");
 
 	}
 	elseif($g == "info")
@@ -40,8 +40,9 @@
 
 		$request = $db->prepare("SELECT * FROM `". $modtable ."` WHERE name='".$n."'");
 		$request->execute();
+		header('Content-Type: application/json; Charset=UTF-8');
 		while($mdata = $request->fetch()) {
-			echo json_encode(array("name" => $n, "author" => $mdata["author"], "version" => $v, "description" => $mdata['description'], "image_url" => $mdata['image_url'], "jar" => array("url" => $vdata['url'], "path" => "modpathgoeshere")), JSON_FORCE_OBJECT);
+			echo json_encode(array("name" => $n, "author" => mb_convert_encoding($mdata["author"], "UTF-8", "HTML-ENTITIES"), "category" => mb_convert_encoding($mdata["category"], "UTF-8", "HTML-ENTITIES"), "version" => $v, "description" => mb_convert_encoding($mdata['description'], "UTF-8", "HTML-ENTITIES"), "image_url" => mb_convert_encoding($mdata['image_url'], "UTF-8", "HTML-ENTITIES"), "jar" => array("url" => mb_convert_encoding($vdata['url'], "UTF-8", "HTML-ENTITIES"), "path" => "modpathgoeshere")), JSON_FORCE_OBJECT);
 		}
 		$request->closeCursor();
 	}
