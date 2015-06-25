@@ -42,7 +42,7 @@
 		$request->execute();
 		header('Content-Type: application/json; Charset=UTF-8');
 		while($mdata = $request->fetch()) {
-			echo json_encode(array("name" => $n, "author" => mb_convert_encoding($mdata["author"], "UTF-8", "HTML-ENTITIES"), "category" => mb_convert_encoding($mdata["category"], "UTF-8", "HTML-ENTITIES"), "version" => $v, "description" => mb_convert_encoding($mdata['description'], "UTF-8", "HTML-ENTITIES"), "image_url" => mb_convert_encoding($mdata['image_url'], "UTF-8", "HTML-ENTITIES"), "jar" => array("url" => mb_convert_encoding($vdata['url'], "UTF-8", "HTML-ENTITIES"), "path" => "modpathgoeshere")), JSON_FORCE_OBJECT);
+			echo json_encode(array("name" => $n, "author" => mb_convert_encoding($mdata["author"], "UTF-8", "HTML-ENTITIES"), "category" => mb_convert_encoding($mdata["category"], "UTF-8", "HTML-ENTITIES"), "version" => $v, "description" => mb_convert_encoding($mdata['description'], "UTF-8", "HTML-ENTITIES"), "prerequisites" => $mdata["prerequisites"], "image_url" => mb_convert_encoding($mdata['image_url'], "UTF-8", "HTML-ENTITIES"), "jar" => array("url" => mb_convert_encoding($vdata['url'], "UTF-8", "HTML-ENTITIES"), "path" => "modpathgoeshere")), JSON_FORCE_OBJECT);
 		}
 		$request->closeCursor();
 	}
